@@ -1,27 +1,28 @@
 import React from 'react'
-import About from './comp/About'
 import Contact from './comp/Contact'
+import { About } from './comp/About'
+import { HashRouter, Route, Routes } from 'react-router-dom'
+import MainMenu from './comp/MainMenu'
+import Home from './comp/Home'
+import TodoList from './comp/TodoList'
+import Calculator from './comp/Calculator'
 
 export default function App() {
-
-  let x = 5
-  x = 10
-  let y = 5
-  let z = x + y
-
-  function run() {
-    window.alert('hai')
-  }
 
   return (
     <div>
 
-      <h2>Main</h2>
-      <h1>{x} and {y} = {z}</h1>
-      <button onClick={run}>Click here</button>
-
-      <About />
-      <Contact />
+      <HashRouter>
+        <Routes>
+          <Route path="/" element={<MainMenu />}>
+            <Route path='' element={<Home />} />
+            <Route path='calculator' element={<Calculator />} />
+            <Route path='about' element={<About />} />
+            <Route path='contact' element={<Contact />} />
+            <Route path='todolist' element={<TodoList />} />
+          </Route>
+        </Routes>
+      </HashRouter>
 
     </div>
   )
