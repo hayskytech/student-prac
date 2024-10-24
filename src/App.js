@@ -1,4 +1,5 @@
 import React from 'react'
+import 'semantic-ui-css/semantic.min.css'
 import Contact from './comp/Contact'
 import { About } from './comp/About'
 import { HashRouter, Route, Routes } from 'react-router-dom'
