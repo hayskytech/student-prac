@@ -1,6 +1,6 @@
 import { onValue, push, ref, set } from 'firebase/database'
 import React, { useEffect, useState } from 'react'
-import { Button } from 'semantic-ui-react'
+import { Button, Form, Icon, Input, Table } from 'semantic-ui-react'
 import { db } from '../firebaseConfig'
 
 export default function TodoList() {
@@ -11,30 +11,53 @@ export default function TodoList() {
   useEffect(() => {
     onValue(ref(db, 'todos'), (snapshot) => {
       const res = snapshot.val()
-      // console.log(res);
-      // console.log(Object.entries(res));
-      setList(res)
+      setList(res || {})
 
     })
   }, [])
 
   function addItem() {
+    if (item === '') return
     push(ref(db, 'todos'), item)
     setItem('')
   }
 
+  function deleteAll() {
+    if (!window.confirm('Delete All items?')) return
+    set(ref(db, 'todos'), null)
+  }
+
+  function deleteItem(id) {
+    if (!window.confirm('Delete this item?')) return
+    set(ref(db, `todos/${id}`), null)
+  }
+
   return (
-    <div>
+    <div style={{ maxWidth: 500, margin: 'auto' }}>
+
       <h3>Todo List</h3>
-      <input value={item} onChange={(e) => setItem(e.target.value)} />
-      <Button onClick={addItem}>ADD ITEM</Button>
+
+      <Form onSubmit={addItem}>
+        <Input placeholder="Enter text" value={item} onChange={(e) => setItem(e.target.value)} />
+        <Button color="blue" disabled={item === ''}>ADD ITEM</Button>
+        {Object.keys(list).length > 0 && <Button color="red" type='button' onClick={deleteAll}>Delete All</Button>}
+      </Form>
+
       <hr />
 
-      <ol>
+      <Table unstackable>
         {Object.entries(list).map((todo) => {
-          return (<li>{todo[1]}</li>)
+          return (<tr>
+            <td>{todo[1]}</td>
+            <td>
+              <Icon name="trash alternate" color='red'
+                onClick={() => deleteItem(todo[0])}
+              />
+            </td>
+          </tr>)
         })}
-      </ol>
+      </Table>
+
     </div>
   )
 }

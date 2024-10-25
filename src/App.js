@@ -7,6 +7,10 @@ import MainMenu from './comp/MainMenu'
 import Home from './comp/Home'
 import TodoList from './comp/TodoList'
 import Calculator from './comp/Calculator'
+import Students from './students/Students'
+import StudentEdit from './students/StudentEdit'
+import Books from './books/Books'
+import BookEdit from './books/BookEdit'
 
 export default function App() {
 
@@ -21,6 +25,10 @@ export default function App() {
             <Route path='about' element={<About />} />
             <Route path='contact' element={<Contact />} />
             <Route path='todolist' element={<TodoList />} />
+            <Route path='books' element={<Books />} />
+            <Route path='book-edit' element={<BookEdit />} />
+            <Route path='students' element={<Students />} />
+            <Route path='student-edit' element={<StudentEdit />} />
           </Route>
         </Routes>
       </HashRouter>
