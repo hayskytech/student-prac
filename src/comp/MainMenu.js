@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import { Button } from 'semantic-ui-react'
+import { doLogout } from '../firebaseConfig'
 
 export default function MainMenu() {
   return (
@@ -14,6 +15,7 @@ export default function MainMenu() {
         <Button as={Link} to="calculator" color='blue'>Calculator</Button>
         <Button as={Link} to="students" color='green'>Students</Button>
         <Button as={Link} to="books" color='green'>Books</Button>
+        <Button onClick={doLogout} color='red'>Logout</Button>
       </div>
       <hr />
       <Outlet />

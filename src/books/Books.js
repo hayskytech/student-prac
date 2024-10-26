@@ -1,15 +1,16 @@
 import { onValue, ref, set } from 'firebase/database'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Form, Icon, Table } from 'semantic-ui-react'
 import { db } from '../firebaseConfig'
 import { Link } from 'react-router-dom'
+import { MyContext } from '../App'
 
 export default function Books() {
-
+  const { user } = useContext(MyContext)
   const [list, setList] = useState({})
 
   useEffect(() => {
-    onValue(ref(db, 'books'), (snapshot) => {
+    onValue(ref(db, `books/${user.uid}`), (snapshot) => {
       const res = snapshot.val()
       setList(res || {})
     })
@@ -17,12 +18,12 @@ export default function Books() {
 
   function deleteAll() {
     if (!window.confirm('Delete All items?')) return
-    set(ref(db, 'books'), null)
+    set(ref(db, `books/${user.uid}`), null)
   }
 
   function deleteItem(id) {
     if (!window.confirm('Delete this item?')) return
-    set(ref(db, `books/${id}`), null)
+    set(ref(db, `books/${user.uid}/${id}`), null)
   }
 
   return (

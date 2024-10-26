@@ -1,9 +1,12 @@
 import { onValue, push, ref, set } from 'firebase/database';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Form, Icon, Input, Table } from 'semantic-ui-react';
 import { db } from '../firebaseConfig';
+import { MyContext } from '../App';
 
 export default function BookEdit() {
+  const { user } = useContext(MyContext)
+
   const [book_name, setBookName] = useState('');
   const [price, setPrice] = useState('');
   const [pages, setPages] = useState('');
@@ -11,7 +14,7 @@ export default function BookEdit() {
 
   function handleSubmit() {
     if (book_name === '') return;
-    push(ref(db, 'books'), { book_name, price, pages, author });
+    push(ref(db, `books/${user.uid}`), { book_name, price, pages, author });
     setBookName('');
     setPrice('');
     setPages('');
